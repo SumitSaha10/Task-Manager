@@ -21,16 +21,16 @@ const Notes = (props) => {
   }, [])
   const ref = useRef(null);
 
-  const [note, setNote] = useState({ id: "", etitle: "", edescription: "", etag: "Default" })
+  const [note, setNote] = useState({ id: "", etitle: "", edescription: "", estatus: "Incompleted" })
   const updateNote = (currentNote) => {
     ref.current.click();
-    setNote({ id: currentNote._id, etitle: currentNote.title, edescription: currentNote.description, etag: currentNote.tag })
+    setNote({ id: currentNote._id, etitle: currentNote.title, edescription: currentNote.description, estatus: currentNote.status })
 
   }
 
   const handleClick = (e) => {
     e.preventDefault();
-    editNote(note.id, note.etitle, note.edescription, note.etag)
+    editNote(note.id, note.etitle, note.edescription, note.estatus)
     ref.current.click();
     props.showAlert("Note updated Successfully", "success")
   }
@@ -77,10 +77,7 @@ const Notes = (props) => {
                   <label htmlFor="description" className="form-label">description</label>
                   <input type="text" className="form-control" id="edescription" name='edescription' onChange={onChange} value={note.edescription} required />
                 </div>
-                <div className="mb-3">
-                  <label htmlFor="tag" className="form-label">Tag</label>
-                  <input type="text" className="form-control" id="etag" name='etag' onChange={onChange} value={note.etag} />
-                </div>
+
 
               </div>
             </div>
