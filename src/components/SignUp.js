@@ -1,18 +1,22 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-
+import { useForm } from 'react-hook-form'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 const SignUp = (props) => {
-  const [credentials, setCredentials] = useState({ name: "", email: "", password: "" })
+  const schema = yup.object().shape({
+    name: yup.string().min(3).required(),
+    email: yup.string().email().required(),
+    password: yup.string().min(5).required()
+  })
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    resolver: yupResolver(schema)
+  })
+
   let navigate = useNavigate()
-  const onChange = (e) => {
 
-    setCredentials({ ...credentials, [e.target.name]: e.target.value })
-    // console.log("updating the note",note)
-
-  }
-  const { name, email, password } = credentials
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async ({ name, email, password }) => {
+    // e.preventDefault();
     const response = await fetch(`http://localhost:6000/api/auth/createuser`, {
       method: 'POST',
       headers: {
@@ -34,21 +38,29 @@ const SignUp = (props) => {
     }
 
   }
+
+  const onSubmitDemo = (data) => {
+    onSubmit(data)
+  }
+
   return (
     <>
       <div className='container mt-3'>
         <h2>Create an account to use Mynotebook</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmitDemo)}>
           <div className="form-floating mb-3">
-            <input type="text" className="form-control" id="name" name='name' value={credentials.name} placeholder="Name" onChange={onChange} minLength={3} required />
+            <input type="text" className="form-control" id="name" name='name' placeholder="Name" {...register("name")} />
+            <p className='text-danger'>{errors.name ? "Name must be atleast 3 characters" : ""}</p>
             <label htmlFor="name">Name</label>
           </div>
           <div className="form-floating mb-3">
-            <input type="email" className="form-control" id="email" name='email' value={credentials.email} placeholder="name@example.com" onChange={onChange} minLength={5} required />
+            <input type="email" className="form-control" id="email" name='email' placeholder="name@example.com" {...register("email")} />
+            <p className='text-danger'>{errors.email ? "Please enter a valid email" : ""}</p>
             <label htmlFor="email">Email</label>
           </div>
           <div className="form-floating mb-3">
-            <input type="password" className="form-control" id="password" name='password' value={credentials.password} placeholder="Password" onChange={onChange} minLength={5} required />
+            <input type="password" className="form-control" id="password" name='password' placeholder="Password" {...register("password")} />
+            <p className='text-danger'>{errors.password ? "Password must be atleast 5 characters" : ""}</p>
             <label htmlFor="password">Password</label>
           </div>
 
