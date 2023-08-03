@@ -8,7 +8,7 @@ const AddNote = (props) => {
     e.preventDefault();
     addNote(note.title, note.description, note.status);
     setNote({ title: "", description: "", status: "Incompleted" })
-    props.showAlert("Note added Successfully", "success")
+    props.showAlert("Task added Successfully", "success")
   }
   const handleClick = (e) => {
 

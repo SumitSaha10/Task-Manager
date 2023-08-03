@@ -32,12 +32,12 @@ const Notes = (props) => {
     e.preventDefault();
     editNote(note.id, note.etitle, note.edescription, note.estatus)
     ref.current.click();
-    props.showAlert("Note updated Successfully", "success")
+    props.showAlert("Task updated Successfully", "success")
   }
   const onChange = (e) => {
 
     setNote({ ...note, [e.target.name]: e.target.value })
-    // console.log("updating the note",note)
+
 
   }
 

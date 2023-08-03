@@ -9,7 +9,7 @@ const Noteitem = (props) => {
     note.status = "Completed"
     editNote(note._id, note.title, note.description, note.status)
 
-    props.showAlert("Note updated Successfully", "success")
+    props.showAlert("Task updated Successfully", "success")
   }
   return (
     <div className='col-md-3'>
